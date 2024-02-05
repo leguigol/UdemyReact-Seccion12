@@ -3,6 +3,9 @@ import LayoutRoot from "../layout/LayoutRoot";
 import Home from "../pages/Home";
 import LayoutPrivate from "../layout/LayoutPrivate";
 import Dashboard from "../pages/Dashboard";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import RegistroFarmacia from "../pages/RegistroFarmacia";
 
 export const router=createBrowserRouter([
     {
@@ -10,8 +13,12 @@ export const router=createBrowserRouter([
         element: <LayoutRoot />,
         children: [
             {
-                index: true,
-                element: <Home />
+                path: '/',
+                element: <Login />
+            },
+            {
+                path: '/register',
+                element: <Register />
             },
             {
                 path: '/dashboard',
@@ -20,6 +27,16 @@ export const router=createBrowserRouter([
                     {
                         index: true,
                         element: <Dashboard />
+                    }
+                ]
+            },
+            {
+                path:'/registro-farmacia',
+                element: <LayoutPrivate />,
+                children: [
+                    {
+                        path: '/registro-farmacia',
+                        element: <RegistroFarmacia />
                     }
                 ]
             }

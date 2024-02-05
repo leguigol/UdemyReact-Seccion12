@@ -6,7 +6,7 @@ const LayoutRoot = () => {
     <>
         <Navbar />
         <Outlet />
-        <footer>Footer</footer>
+        <footer></footer>
     </>
     )
 }

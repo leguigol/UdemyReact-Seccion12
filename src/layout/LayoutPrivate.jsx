@@ -1,24 +1,25 @@
-import { Outlet, useNavigate } from "react-router-dom";
-import { useUserContext } from "../context/userContext";
-import { useEffect } from "react";
+// import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
+import { useUserContext } from "../context/UserContext";
 
 const LayoutPrivate = () => {
     
     const {user}=useUserContext();
-    const navigate=useNavigate();
+    // const navigate=useNavigate();
 
-    useEffect(()=>{
-        console.log(user);
-        if(!user){
-            navigate('/')
-        }
-    },[user])
+    // useEffect(()=>{
+    //     console.log(user);
+    //     if(!user){
+    //         navigate('/')
+    //     }
+    // },[user])
 
-    return (
-        <>
-            <Outlet />
-        </>
-    )
-}
+    return <>
+    {
+            user ? <Outlet /> : <Navigate to="/" />
+    }
+    </>
+}     
+ 
 
 export default LayoutPrivate;

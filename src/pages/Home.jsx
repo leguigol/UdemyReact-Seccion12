@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../context/userContext";
+import Login from "./Login";
 
 const Home = () => {
 
-    const {user,setUser}=useUserContext()
+    const {setUser}=useUserContext()
     const navigate=useNavigate();
 
     const handleLogin=()=>{
-        setUser(true);
-        navigate('/dashboard');
+        navigate('/login');
     }
   return (
     <>
