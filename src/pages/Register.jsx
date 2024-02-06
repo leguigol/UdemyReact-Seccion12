@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { register } from '../config/firebase';
 import useRedirectActiveUser from '../hooks/useRedirectActiveUser';
 import { useUserContext } from '../context/UserContext';
@@ -8,6 +8,7 @@ import { Avatar, Box, Button, TextField, Typography } from '@mui/material';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { LoadingButton } from '@mui/lab';
 import { Link } from 'react-router-dom';
+import { useFirestore } from '../hooks/useFirestore';
 
 const Register = () => {
 
@@ -15,7 +16,11 @@ const Register = () => {
   const [password, setPassword]=useState('')
 
   const {user}=useUserContext();
-  useRedirectActiveUser(user,"/dashboard");
+  const {data,error,loading}=useFirestore();
+
+  useEffect(()=>{
+    console.log(data);
+  },[]);
 
   // const handleSubmit= async(e)=>{
   //   e.preventDefault();

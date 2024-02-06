@@ -15,11 +15,11 @@ import UserProvider from './context/UserContext.jsx';
 import { CssBaseline } from "@mui/material";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <CssBaseline>
       <UserProvider>
         <RouterProvider router={router} />
       </UserProvider>
     </CssBaseline>
-  </React.StrictMode>,
+  // </React.StrictMode>,
 )
