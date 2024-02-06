@@ -1,14 +1,19 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { logout } from "../config/firebase";
 import { useUserContext } from "../context/UserContext";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
+import { useFirestore } from "../hooks/useFirestore";
 
 
 const Dashboard = () => {
 
-    const { user,cuit,setCuit,razon,setRazon }=useUserContext();
+    const { user,dataFarmacia,setDataFarmacia}=useUserContext();
+    const [farmacia,setFarmacia]=useState([]);
+    const { getDataFarmacia}=useFirestore();
+
+    console.log('dataFarmacia:',dataFarmacia[0]);
     const navigate = useNavigate();
 
     const handleLogout=async()=>{
@@ -19,42 +24,41 @@ const Dashboard = () => {
         }
     }
 
-    useEffect(() => {
-        const fetchFarmacias = async () => {
-          if (user && user.uid) {
-            try {
-              const farmaciasCollection = collection(db,'farmacias');
-              const q=query(farmaciasCollection, where("uid","==",user.uid));
-              const docs = await getDocs(q);
+    // useEffect(() => {
+    //     const fetchFarmacias = async () => {
+    //       if (user && user.uid) {
+    //         try {
+    //           const farmaciasCollection = collection(db,'farmacias');
+    //           const q=query(farmaciasCollection, where("id","==",user.uid));
+    //           const docs = await getDocs(q);
               
-              const res=[];
+    //           const res=[];
 
-              docs.forEach(farmas=>{
-                res.push({
-                    id:farmas.uid,
-                    ...farmas.data()    
-                })
-              })
-              if (res.length > 0) {
-                setCuit(res[0].cuit);
-                setRazon(res[0].razonsocial);
-            } else {
-                console.log("No se encontraron documentos.");
-                navigate('/registro-farmacia')
-            }
-            } catch (error) {
-              console.error('Error al obtener la colección de farmacias:', error);
-            }
-          }
-        };
+    //           docs.forEach(farmas=>{
+    //             res.push({
+    //                 id:farmas.uid,
+    //                 ...farmas.data()    
+    //             })
+    //           })
+    //           if (res.length > 0) {
+    //             console.log(res)
+    //             setDataFarmacia({"cuit:":res[0].cuit});
+    //         } else {
+    //             console.log("No se encontraron documentos.");
+    //             navigate('/registro-farmacia')
+    //         }
+    //         } catch (error) {
+    //           console.error('Error al obtener la colección de farmacias:', error);
+    //         }
+    //       }
+    //     };
       
-        fetchFarmacias();
-    }, [user]);
+    //     fetchFarmacias();
+    // }, [user]);
 
     return (
         <>
-            <h1>Dashboard - ruta protegida</h1>
-            <h2>Bienvenido: {razon}</h2>
+             <h2>Bienvenido: {dataFarmacia[0].razon}</h2>
             <button onClick={handleLogout}>Logout</button>
         </>
     )

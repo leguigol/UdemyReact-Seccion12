@@ -6,6 +6,7 @@ import Dashboard from "../pages/Dashboard";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import RegistroFarmacia from "../pages/RegistroFarmacia";
+import Empleados from "../pages/Empleados";
 
 export const router=createBrowserRouter([
     {
@@ -37,6 +38,16 @@ export const router=createBrowserRouter([
                     {
                         path: '/registro-farmacia',
                         element: <RegistroFarmacia />
+                    }
+                ]
+            },
+            {
+                path:'/empleados',
+                element: <LayoutPrivate />,
+                children: [
+                    {
+                        path: '/empleados',
+                        element: <Empleados />
                     }
                 ]
             }
