@@ -65,14 +65,15 @@ const Empleados = () => {
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
                       <TableCell component="th" scope="row">
-                        {row.id}
+                        {row.uid}
                       </TableCell>
+                      <TableCell align="center">{row.id}</TableCell>
                       <TableCell align="center">{row.cuil}</TableCell>
                       <TableCell align="center">{row.apellido}</TableCell>
                       <TableCell align="center">{row.nombres}</TableCell>
                       <TableCell align="center">{categorias[row.categoria]}</TableCell>
-                      <TableCell align="center">{moment(row.feingreso).format('DD/MM/YY')}</TableCell>
-                      <TableCell align="center">{moment(row.feegreso).format('DD/MM/YY')}</TableCell>
+                      <TableCell align="center">{row.fecha_ingreso===null ? '': moment(row.fecha_ingreso).format('DD/MM/YY')}</TableCell>
+                      <TableCell align="center">{row.fecha_egreso===null ? '': moment(row.fecha_egreso).format('DD/MM/YY')}</TableCell>
                       <TableCell align="center">{row.licencia ? <Checkbox checked /> : null}</TableCell>
                       <TableCell align="center">{row.reducida ? <Checkbox checked /> : null}</TableCell>
                       <TableCell align="center">{row.sindical ? <Checkbox checked /> : null}</TableCell>

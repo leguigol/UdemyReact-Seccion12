@@ -1,31 +1,54 @@
-import { Avatar, Box, Typography,TextField, Select, MenuItem, FormControl, InputLabel, Stack} from '@mui/material'
+import { Avatar, Box, Typography,TextField, Select, MenuItem, FormControl, InputLabel, Stack, FormControlLabel, FormGroup, Checkbox} from '@mui/material'
 import { Formik } from 'formik'
 import React from 'react'
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import * as Yup from "yup";
 import { LoadingButton } from '@mui/lab';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import 'dayjs/locale/en-gb';
+import { useNavigate } from 'react-router-dom';
+import {useFirestore} from '../hooks/useFirestore';
 
 const Aempleado = () => {
 
+    const navigate=useNavigate();
+    const {addDataE}=useFirestore();
 
     const onSubmit=async(values,{setSubmitting, setErrors})=>{
+        console.log('submit')
         try{
             console.log(values);
-//            await addDataF(values);
+            await addDataE(values);
+            navigate('/empleados');
         }catch(error){
-          console.log({error});
+          console.log(error);
         }finally{
           setSubmitting(false);
         }    
       }
     
-      
+    const DatePickerField = ({ name, value, onChange }) => {
+        return (
+            <DatePicker
+                selected={(value && new Date(value)) || null}
+                onChange={val => {
+                    onChange(name, val);
+                }}
+            />
+        );
+    };
+    
   const validationSchema=Yup.object().shape({
     cuil: Yup.string().matches(/^\d{11}$/, 'El CUIL debe tener exactamente 11 dígitos numéricos').required("Cuil requerido"),
     apellido: Yup.string().required("Apellido es requerido"),
     nombres: Yup.string().required("Nombres es requerido"),
-    categoria: Yup.number().required("Categoria es requerida"),
-    fechaingreso: Yup.date().required("Telefono requerido")
+    categoria: Yup.string().required("Categoria es requerida"),
+    fechaingreso: Yup.date()
+    .nullable()
+    .default(null, "Fecha de ingreso es requerida")
+    .test('not-empty', 'Fecha de ingreso es requerida', (value) => value !== null && value !== "")
   })
 
   const categorias = [
@@ -50,12 +73,12 @@ const Aempleado = () => {
         Registrar Empleado
       </Typography>
         <Formik
-          initialValues={{ cuil: "", apellido: "", nombres: "", categoria: "", fechaingreso: "", licencia: "", reducida: "", sindical: "" }}
+          initialValues={{ cuil: "", apellido: "", nombres: "", categoria: "", fechaingreso: "", licencia: false, reducida: false, sindical: true }}
           onSubmit={onSubmit}
           validationSchema={validationSchema}
         >
           {
-            ({values, handleSubmit,handleChange,errors,touched,handleBlur,isSubmitting})=>(
+            ({values, handleSubmit,handleChange,errors,touched,handleBlur,isSubmitting,setFieldValue})=>(
               // <form onSubmit={handleSubmit}>
               <Box onSubmit={handleSubmit} sx={{mt:1}} component="form">
 
@@ -98,7 +121,8 @@ const Aempleado = () => {
                   error={errors.nombres && touched.nombres}
                   helperText={errors.nombres && touched.nombres && errors.nombres}
                 />
-                <FormControl fullWidth>
+                <FormControl fullWidth
+                >
                   <InputLabel id="demo-simple-select-label">Categoria</InputLabel>
                         <Select
                             labelId="categoria-label"
@@ -109,9 +133,9 @@ const Aempleado = () => {
                             onBlur={handleBlur}
                             label="Categoría"
                             sx={{ mb: 3}}
+                            error={errors.categoria && touched.categoria}
                             autoWidth
-                            error={touched.categoria && Boolean(errors.categoria)}
-                            >
+                        >
                             {/* Opciones de categorías generadas dinámicamente */}
                             {categorias.map((categoria) => (
                                 <MenuItem key={categoria} value={categoria}>
@@ -119,12 +143,20 @@ const Aempleado = () => {
                                 </MenuItem>
                             ))}
                         </Select>
-                </FormControl>        
-                <Stack spacing={4} sx={{ width: '250px'}}>
-                    <DatePicker label="date picker" value={values.fechaingreso} onChange={handleChange}
-                        renderInput={(params)=> <TextField {...params} />} 
-                    />
-                </Stack>    
+                </FormControl>    
+                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
+                  <DatePickerField 
+                    name="fechaingreso" 
+                    value={values.fechaingreso} 
+                    onChange={setFieldValue}
+                  />
+                </LocalizationProvider>  
+                
+                <FormGroup>
+                  <FormControlLabel control={<Checkbox checked={values.licencia} onChange={handleChange} name="licencia"/>} label="En licencia" />
+                  <FormControlLabel control={<Checkbox checked={values.reducida} onChange={handleChange} name="reducida"/>} label="Jornada reducida" />
+                  <FormControlLabel control={<Checkbox checked={values.sindical} onChange={handleChange} name="sindical"/>} label="Sindical " />
+                </FormGroup>  
                 <LoadingButton
                   type="submit"
                   disabled={isSubmitting} 
