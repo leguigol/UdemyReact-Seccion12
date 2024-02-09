@@ -13,8 +13,13 @@ const Dashboard = () => {
     const [farmacia,setFarmacia]=useState([]);
     const { getDataFarmacia}=useFirestore();
 
-    console.log('dataFarmacia:',dataFarmacia[0]);
     const navigate = useNavigate();
+
+    useEffect(()=>{
+        getDataFarmacia();
+        console.log('dataFarmacia:',dataFarmacia[0]);
+    },[]);
+    
 
     const handleLogout=async()=>{
         try{
@@ -58,7 +63,7 @@ const Dashboard = () => {
 
     return (
         <>
-             <h2>Bienvenido: {dataFarmacia[0].razon}</h2>
+            <h2>Bienvenido: {dataFarmacia[0].razon}</h2> 
             <button onClick={handleLogout}>Logout</button>
         </>
     )

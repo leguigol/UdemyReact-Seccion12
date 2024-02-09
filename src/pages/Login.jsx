@@ -19,11 +19,6 @@ const Login = () => {
   const navigate=useNavigate();
   // const {user}=useUserContext();
 
-  useEffect(()=>{
-    if(user){
-      navigate('/dashboard');
-    }
-  },[user]);
 
   // const handleSubmit= async(e)=>{
   //   e.preventDefault();
@@ -45,6 +40,7 @@ const Login = () => {
         email: credentialUser.user.email,
       };
       setUser(userInformation);
+      navigate('/dashboard');
       //console.log(credentialUser);
     }catch(error){
       console.log({error});

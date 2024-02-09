@@ -7,6 +7,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import RegistroFarmacia from "../pages/RegistroFarmacia";
 import Empleados from "../pages/Empleados";
+import Aempleado from "../pages/Aempleado";
 
 export const router=createBrowserRouter([
     {
@@ -50,7 +51,18 @@ export const router=createBrowserRouter([
                         element: <Empleados />
                     }
                 ]
+            },
+            {
+                path:'/alta-empleado',
+                element: <LayoutPrivate />,
+                children: [
+                    {
+                        path: '/alta-empleado',
+                        element: <Aempleado />
+                    }
+                ]
             }
+
         ]
     }
 ])

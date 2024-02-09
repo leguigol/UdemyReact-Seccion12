@@ -11,10 +11,11 @@ export const useFirestore = () => {
     const [error,setError]=useState();
     const [loading,setLoading]=useState({});
     const {dataFarmacia,setDataFarmacia}=useUserContext();
+    const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
 
-    useEffect(()=>{
-        getDataFarmacia();
-    },[])
+    // useEffect(()=>{
+    //     getDataFarmacia();
+    // },[dataFarmacia])
 
     const getDataFarmacia=async()=>{
         // console.log('auth:',auth.currentUser.uid);
@@ -34,6 +35,9 @@ export const useFirestore = () => {
         }
     }
 
+    const handleCategoriaChange = (event) => {
+        setCategoriaSeleccionada(event.target.value);
+      };
     
     const getDataEmpleados=async()=>{
         try{
