@@ -35,9 +35,6 @@ export const useFirestore = () => {
         }
     }
 
-    const handleCategoriaChange = (event) => {
-        setCategoriaSeleccionada(event.target.value);
-      };
     
     const getDataEmpleados=async()=>{
         try{

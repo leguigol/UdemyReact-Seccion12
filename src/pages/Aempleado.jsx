@@ -4,6 +4,7 @@ import React from 'react'
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import * as Yup from "yup";
 import { LoadingButton } from '@mui/lab';
+import { DatePicker} from '@mui/x-date-pickers'
 
 const Aempleado = () => {
 
@@ -120,11 +121,16 @@ const Aempleado = () => {
                             ))}
                         </Select>
                 </FormControl>        
-                <Stack spacing={4} sx={{ width: '250px'}}>
-                    <DatePicker label="date picker" value={values.fechaingreso} onChange={handleChange}
-                        renderInput={(params)=> <TextField {...params} />} 
-                    />
-                </Stack>    
+                <div>
+                <DatePicker
+                    disabledFuture
+                    label='Responsive'
+                    openTo='year'
+                    views={['year','month','day']}
+                    renderInput={(params)=> <TextField {...params} />}
+                />    
+
+                </div>
                 <LoadingButton
                   type="submit"
                   disabled={isSubmitting} 
